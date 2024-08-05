@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'habits',  # added 1
     'drf_yasg',  # added 1
     'django_celery_beat',  # added 1
+    'rest_framework_simplejwt'  # added 3
 ]
 
 MIDDLEWARE = [
@@ -129,9 +131,15 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-INSTALLED_APPS += ['corsheaders']
+INSTALLED_APPS += ['corsheaders'] # added 2; += appends
 MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # пример, добавить свои домены
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
