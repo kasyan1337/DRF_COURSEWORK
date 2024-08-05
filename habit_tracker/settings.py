@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import environ
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,3 +147,13 @@ REST_FRAMEWORK = {
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+CELERY_BEAT_SCHEDULE = {
+    'send-remainders-every-minute': {
+        'task': 'habits.tasks.send_remainders',
+        'schedule': crontab(minute='*/1'),
+    },
+
+}
