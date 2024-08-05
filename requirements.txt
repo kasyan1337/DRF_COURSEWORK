@@ -4,3 +4,4 @@ psycopg2-binary
 drf-yasg
 celery
 redis
+django-cors-headers
