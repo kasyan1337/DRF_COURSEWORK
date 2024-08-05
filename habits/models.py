@@ -20,4 +20,4 @@ class Habit(models.Model):
             raise ValueError('A habit cannot have a related habit and a reward at the same time.')
         if self.duration > 120:
             raise ValueError('Duration must be less than or equal to 120 seconds.')
-        super.save(*args, **kwargs)  # Calls the parent class's save method to save the instance to the database
+        super(Habit, self).save(*args, **kwargs)  # Calls the parent class's save method to save the instance to the database
