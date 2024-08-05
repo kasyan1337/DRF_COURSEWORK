@@ -5,3 +5,4 @@ drf-yasg
 celery
 redis
 django-cors-headers
+rest_framework_simplejwt
