@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import viewsets, permissions
 
 from habits.models import Habit
@@ -6,10 +5,13 @@ from habits.serializers import HabitSerializer
 
 
 class HabitViewSet(viewsets.ModelViewSet):
-    queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Habit.objects.filter(user=user)
+        if self.request.user.is_authenticated:
+            return Habit.objects.filter(user=self.request.user)  # shows only user's habits if user is authenticated
+        return Habit.objects.filter(is_public=True)  # shows only public habits if user is not authenticated
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)  # saves with currently authenticated user
