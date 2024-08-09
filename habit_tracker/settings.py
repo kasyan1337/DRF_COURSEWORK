@@ -132,7 +132,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-INSTALLED_APPS += ['corsheaders'] # added 2; += appends
+INSTALLED_APPS += ['corsheaders']  # added 2; += appends
 MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']
 
 CORS_ALLOWED_ORIGINS = [
@@ -159,3 +159,8 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+}

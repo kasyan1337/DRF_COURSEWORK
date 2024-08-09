@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -16,10 +16,14 @@ class Habit(models.Model):
     duration = models.PositiveIntegerField()  # in seconds
     is_public = models.BooleanField(default=False)
 
-    def save(self, *args, **kwargs):
+    def clean(self):
         if self.related_habit and self.reward:
-            raise ValueError('A habit cannot have a related habit and a reward at the same time.')
+            raise ValidationError('A habit cannot have a related habit and a reward at the same time.')
         if self.duration > 120:
-            raise ValueError('Duration must be less than or equal to 120 seconds.')
-        super(Habit, self).save(*args,
-                                **kwargs)  # Calls the parent class's save method to save the instance to the database
+            raise ValidationError('Duration must be less than or equal to 120 seconds.')
+        if not self.is_pleasant and not self.user.notification_time:
+            raise ValidationError('Notification time must be set for unpleasant habits.')
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Calls the clean method to validate the instance
+        super.save(*args, **kwargs)  # Calls the parent class's save method to save the instance to the database
