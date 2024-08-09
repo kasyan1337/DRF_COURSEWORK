@@ -1,9 +1,10 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
 
 class Habit(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     action = models.CharField(max_length=255)
     time = models.TimeField()
     place = models.CharField(max_length=255)
@@ -20,4 +21,5 @@ class Habit(models.Model):
             raise ValueError('A habit cannot have a related habit and a reward at the same time.')
         if self.duration > 120:
             raise ValueError('Duration must be less than or equal to 120 seconds.')
-        super(Habit, self).save(*args, **kwargs)  # Calls the parent class's save method to save the instance to the database
+        super(Habit, self).save(*args,
+                                **kwargs)  # Calls the parent class's save method to save the instance to the database
