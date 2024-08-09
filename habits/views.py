@@ -15,3 +15,5 @@ class HabitViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)  # saves with currently authenticated user
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
