@@ -42,10 +42,11 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path("admin/", admin.site.urls),
-    path('api/', include('habits.urls')),  # this one too
-    path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # obtain a new pair of access and refresh tokens
-    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path("admin/", admin.site.urls),  # path for admin site
+    path('api/', include('habits.urls')),  # path for habits app
+    path('api/users/', include('users.urls')),  # path for users app
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # This view is used to obtain the access and refresh token.
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # This view is used to refresh the access token using the refresh token.
 ]
