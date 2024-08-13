@@ -9,8 +9,13 @@ class Habit(models.Model):
     time = models.TimeField()
     place = models.CharField(max_length=255)
     is_pleasant = models.BooleanField(default=False)
-    related_habit = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL,
-                                      related_name='related_habits')
+    related_habit = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="related_habits",
+    )
     frequency = models.PositiveIntegerField(default=1)  # number of days
     reward = models.CharField(max_length=255, null=True, blank=True)
     duration = models.PositiveIntegerField()  # in seconds
