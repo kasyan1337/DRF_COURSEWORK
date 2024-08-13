@@ -1,11 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-
-from habits.views import HabitViewSet
-
-router = DefaultRouter()
-router.register(r'habits', HabitViewSet, basename='habit')
+from django.urls import path
+from .views import HabitListCreateView, HabitRetrieveUpdateDestroyView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('habits/', HabitListCreateView.as_view(), name='habit-list-create'),
+    path('habits/<int:pk>/', HabitRetrieveUpdateDestroyView.as_view(), name='habit-detail'),
 ]
