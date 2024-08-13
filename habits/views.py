@@ -1,19 +1,21 @@
-from rest_framework import viewsets, permissions
-
+from rest_framework import generics, permissions
 from habits.models import Habit
 from habits.serializers import HabitSerializer
+from .permissions import IsOwnerOrReadOnly
 
-
-class HabitViewSet(viewsets.ModelViewSet):
+class HabitListCreateView(generics.ListCreateAPIView):
     serializer_class = HabitSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Habit.objects.filter(user=self.request.user)  # shows only user's habits if user is authenticated
-        return Habit.objects.filter(is_public=True)  # shows only public habits if user is not authenticated
+        return Habit.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)  # saves with currently authenticated user
-    def perform_update(self, serializer):
         serializer.save(user=self.request.user)
+
+class HabitRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = HabitSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        return Habit.objects.all()
