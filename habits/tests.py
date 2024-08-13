@@ -1,9 +1,11 @@
+from datetime import time
+
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
-from django.contrib.auth import get_user_model
+
 from habits.models import Habit
-from datetime import time
 
 User = get_user_model()
 
