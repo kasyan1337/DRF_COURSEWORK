@@ -17,7 +17,8 @@ class HabitSerializer(serializers.ModelSerializer):
             'duration',
             'is_public',
             'frequency',
-            'related_habit'
+            'related_habit',
+            'notification_time'
         ]
         read_only_fields = ['user']
 
@@ -28,8 +29,12 @@ class HabitSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Duration must be less than or equal to 120 seconds.")
 
         # Validator for notification time for unpleasant habits Validator 2
-        if not data['is_pleasant'] and not self.context['request'].user.notification_time:
-            raise serializers.ValidationError("Notification time must be set for unpleasant habits.")
+        if not data['is_pleasant']:
+            # Check if notification_time is provided in the data
+            notification_time_in_data = data.get('notification_time')
+            user_notification_time = self.context['request'].user.notification_time
+            if not notification_time_in_data and not user_notification_time:
+                raise serializers.ValidationError("Notification time must be set for unpleasant habits.")
 
         # related habut and reward not set validation # Validator 3&4
         if data.get('related_habit') and data.get('reward'):
