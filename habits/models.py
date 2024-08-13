@@ -15,3 +15,4 @@ class Habit(models.Model):
     reward = models.CharField(max_length=255, null=True, blank=True)
     duration = models.PositiveIntegerField()  # in seconds
     is_public = models.BooleanField(default=False)
+    notification_time = models.TimeField(null=True, blank=True)
