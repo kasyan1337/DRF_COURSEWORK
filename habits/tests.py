@@ -71,7 +71,6 @@ class HabitAPITests(APITestCase):
             "time": "18:00",
             "place": "Park",
             "is_pleasant": True,
-            "reward": "Ice Cream",
             "duration": 30,
             "frequency": 1,
         }

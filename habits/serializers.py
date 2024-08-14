@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from habits.models import Habit
 
 
@@ -22,7 +21,6 @@ class HabitSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["user"]
 
-    # 	❌ Нужно реализовать для сериализаторов 5 валидаторов данных
     def validate(self, data):
         # Validate duration # Validator 1
         if data["duration"] > 120:
@@ -40,10 +38,16 @@ class HabitSerializer(serializers.ModelSerializer):
                     "Notification time must be set for unpleasant habits."
                 )
 
-        # related habut and reward not set validation # Validator 3&4
-        if data.get("related_habit") and data.get("reward"):
+        # related habut and reward not set validation # Validator 3
+        if data.get("related_habit") and not data.get("related_habit").is_pleasant:
             raise serializers.ValidationError(
-                "A habit cannot have both a related habit and a reward."
+                "Only pleasant habits can be related habits."
+            )
+
+        # pleasant habit cannot have a reward or a related habit # Validator 4
+        if data["is_pleasant"] and (data.get("reward") or data.get("related_habit")):
+            raise serializers.ValidationError(
+                "A pleasant habit cannot have a reward or a related habit."
             )
 
         # validateor frequency # Validator 5
