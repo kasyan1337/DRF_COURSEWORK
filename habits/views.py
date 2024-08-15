@@ -5,8 +5,10 @@ from habits.models import Habit
 from habits.serializers import HabitSerializer
 from .permissions import IsOwnerOrReadOnly
 
+
 class HabitPagination(PageNumberPagination):
     page_size = 5
+
 
 class HabitListCreateView(generics.ListCreateAPIView):
     serializer_class = HabitSerializer
@@ -29,7 +31,6 @@ class HabitRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class PublicHabitListView(generics.ListAPIView):
-
     serializer_class = HabitSerializer
     permission_classes = [permissions.AllowAny]
     pagination_class = HabitPagination
