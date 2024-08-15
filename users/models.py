@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     email = models.EmailField(
         _("email address"), unique=True
-    )  # ❌ Не переопределено поле username и не указано поле с почтой как для авторизации
+    )
     # No idea why this is needed, we are doing API for telegram
 
     telegram_chat_id = models.CharField(

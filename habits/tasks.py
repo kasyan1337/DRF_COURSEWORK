@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 import requests
 from celery import shared_task
 from django.utils import timezone
@@ -11,11 +9,8 @@ from habits.models import Habit
 @shared_task
 def send_remainders():
     now = timezone.now()
-    one_day_ago = now - timedelta(days=1)
 
-    habits = Habit.objects.filter(
-        time__lte=now.time(), frequency__gte=1
-    )
+    habits = Habit.objects.filter(time__lte=now.time(), frequency__gte=1)
     for habit in habits:
         send_telegram_message(
             habit.user.telegram_chat_id,

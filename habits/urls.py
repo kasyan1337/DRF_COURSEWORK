@@ -13,5 +13,6 @@ urlpatterns = [
         HabitRetrieveUpdateDestroyView.as_view(),
         name="habit-detail",
     ),
-    path("habits/public/", PublicHabitListView.as_view(), name="public-habit-list"),
+    path("habits/public/", PublicHabitListView.as_view(),
+         name="public-habit-list"),
 ]

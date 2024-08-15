@@ -3,7 +3,8 @@ from django.db import models
 
 
 class Habit(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     action = models.CharField(max_length=255)
     time = models.TimeField()
     place = models.CharField(max_length=255)

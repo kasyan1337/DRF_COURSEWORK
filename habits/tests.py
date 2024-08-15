@@ -14,13 +14,17 @@ class HabitAPITests(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create_user(
-            username="testuser", email="testuser@example.com", password="testpass"
+            username="testuser",
+            email="testuser@example.com",
+            password="testpass"
         )
         self.user.notification_time = time(8, 0)
         self.user.save()
 
         self.other_user = User.objects.create_user(
-            username="otheruser", email="otheruser@example.com", password="otherpass"
+            username="otheruser",
+            email="otheruser@example.com",
+            password="otherpass"
         )
         self.other_user.notification_time = time(8, 0)
         self.other_user.save()
@@ -136,7 +140,8 @@ class HabitAPITests(APITestCase):
         ).exists()
         self.assertTrue(other_habit_exists)
 
-        response = self.client.put(self.other_habit_detail_url, data, format="json")
+        response = self.client.put(self.other_habit_detail_url,
+                                   data, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_delete_habit_authenticated(self):

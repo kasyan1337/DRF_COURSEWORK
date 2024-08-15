@@ -17,6 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         user.set_password(
             validated_data["password"]
-        )  # set_password ensures that the password is hashed correctly before saving it.
+        )  # set_password ensures that the password
+        # is hashed correctly before saving it.
         user.save()
         return user
