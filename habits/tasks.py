@@ -11,8 +11,10 @@ from habits.models import Habit
 @shared_task
 def send_remainders():
     now = timezone.now()
+    one_day_ago = now - timedelta(days=1)
+
     habits = Habit.objects.filter(
-        time__lte=now.time(), frequency__gte=(now - timedelta(days=1)).days()
+        time__lte=now.time(), frequency__gte=1
     )
     for habit in habits:
         send_telegram_message(
